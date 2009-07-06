@@ -107,7 +107,6 @@ class CardDatabase(object):
 		parser = lxml.etree.XMLParser(recover=True)
 		tree = lxml.etree.parse(xml, parser)
 		
-		# compiling of necessairy regex's
 		gatherer_id_regex = re.compile(r'\?multiverseid=(\d*)$')
 		name_regex = re.compile(r'nameRow$')
 		
