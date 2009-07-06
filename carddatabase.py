@@ -109,6 +109,12 @@ class CardDatabase(object):
 		
 		gatherer_id_regex = re.compile(r'\?multiverseid=(\d*)$')
 		name_regex = re.compile(r'nameRow$')
+		rarity_regex = re.compile(r'rarityRow$')
+		current_set_regex = re.compile(r'currentSetSymbol$')
+		text_regex = re.compile(r'textRow$')
+		power_thoughness_regex = re.compile(r'ptRow$')
+		type_regex = re.compile(r'typeRow$')
+		mana_regex = re.compile(r'manaRow$')
 		
 		card_data = {}
 		
@@ -120,7 +126,19 @@ class CardDatabase(object):
 			
 			if div_id is not None:
 				if name_regex.search(div_id):
-					card_data['name'] = div.getchildren()[1].text.strip() 
+					card_data['name'] = div.getchildren()[1].text.strip()
+				elif rarity_regex.search(div_id):
+					card_data['rarity'] = div.getchildren()[1].getchildren()[0].text.lower()
+					
+					
+				elif current_set_regex.search(div_id):
+					card_data['expansion'] = div.getchildren()[1].text
+					
+					
+				elif power_thoughness_regex.search(div_id):
+					match = re.compile(r'(\d+)\s/\s(\d+)').search(div.getchildren()[1].text.strip())
+					card_data['power'] = match.group(1)
+					card_data['thoughness'] = match.group(2)
 		
 		return card_data
 		
