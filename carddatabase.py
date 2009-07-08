@@ -54,7 +54,7 @@ class CardDatabase(object):
 		
 	def _get_response_object(self, url):
 		request = urllib2.Request(url=url)
-		request.add_header('user-agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.0; en-GB; rv.1.8.1.4) Gecko/20070515 Firefox/2.0.0.4')
+		request.add_header('user-agent', 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-gb) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16')
 		xml = urllib2.urlopen(request)
 		
 		return xml
@@ -86,7 +86,7 @@ class CardDatabase(object):
 		if cached_file is None:
 			url = "http://gatherer.wizards.com/Pages/Card/Details.aspx?"
 			url = url + urllib.urlencode([('multiverseid', gatherer_id),])
-		
+					
 			xml = self._get_response_object(url)
 		
 			cached_filename = name + repr(self)
@@ -129,12 +129,8 @@ class CardDatabase(object):
 					card_data['name'] = div.getchildren()[1].text.strip()
 				elif rarity_regex.search(div_id):
 					card_data['rarity'] = div.getchildren()[1].getchildren()[0].text.lower()
-					
-					
 				elif current_set_regex.search(div_id):
 					card_data['expansion'] = div.getchildren()[1].text
-					
-					
 				elif power_thoughness_regex.search(div_id):
 					match = re.compile(r'(\d+)\s/\s(\d+)').search(div.getchildren()[1].text.strip())
 					card_data['power'] = match.group(1)
